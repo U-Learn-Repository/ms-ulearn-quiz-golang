@@ -3,7 +3,6 @@ package database
 import "time"
 import "fmt"
 import mgo "gopkg.in/mgo.v2"
-import "gopkg.in/mgo.v2/bson"
 import "github.com/U-Learn-Repository/ms-ulearn-quiz-golang/src/models"
 
 type MongoDB struct {
@@ -45,7 +44,7 @@ func (mongo *MongoDB) Drop() (err error) {
 func (mongo *MongoDB) Init() (err error) { 
 	err = mongo.Drop()
 	if err != nil {
-		fmt.Printf("\n drop database error: %v\n", err)
+		fmt.Printf("\nDrop database error: %v\n", err)
 	}
 
 	question := models.Question{}
@@ -68,22 +67,3 @@ func (mongo *MongoDB) SetSession() (err error) {
 	return err
 }
 
-// GetQuestions [question1, question2, ...]
-func (mongo *MongoDB) GetQuestions() (questions []models.Question, err error) {
-	session := mongo.Session.Clone()
-	defer session.Close()
-
-	err = session.DB(mongo.Database).C(models.CollectionQuestion).Find(bson.M{}).All(&questions)
-	return questions, err
-}
-
-func (mongo *MongoDB) InsertQuestion(newQuestion *models.Question) (err error) {
-	session := mongo.Session.Clone()
-	defer session.Close()
-
-	newQuestion.CreateAt = time.Now()
-	newQuestion.UpdateAt = time.Now()
-
-	err = session.DB(mongo.Database).C(models.CollectionQuestion).Insert(&newQuestion)
-	return err
-}

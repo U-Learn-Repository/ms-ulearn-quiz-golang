@@ -5,12 +5,7 @@ import "github.com/gin-gonic/gin"
 import "github.com/U-Learn-Repository/ms-ulearn-quiz-golang/src/database"
 import "github.com/U-Learn-Repository/ms-ulearn-quiz-golang/src/models"
 
-func IndexRoute(c *gin.Context) {
-	c.JSON(200, gin.H {
-		"message": "hello world",
-	})
-}
-
+// GET: /api/v1/questions
 func GetQuestions(c *gin.Context) {
 	mongo, ok := c.Keys["mongo"].(*database.MongoDB)
 
@@ -27,6 +22,26 @@ func GetQuestions(c *gin.Context) {
 	}
 }
 
+// GET: /api/v1/question/:id
+func GetQuestionById(c *gin.Context) {
+	id := c.Params.ByName("id")
+
+	mongo, ok := c.Keys["mongo"].(*database.MongoDB)
+
+	if !ok {
+		c.JSON(400, gin.H{"message": "can't reach db", "body": nil})
+	}
+
+	data, err := mongo.GetQuestionById(id)
+
+	if err != nil {
+		c.JSON(400, gin.H{"message": "can't get data from database", "body": nil})
+	} else {
+		c.JSON(200, gin.H{"message": "OK", "status": 200, "body": data})
+	}
+}
+
+//POST: /api/v1/question
 func InsertQuestion(c *gin.Context) {
 	mongo, ok := c.Keys["mongo"].(*database.MongoDB)
 
