@@ -1,0 +1,14 @@
+sudo apt install mongodb
+sudo service mongodb start
+use <database-name>
+
+
+
+
+{
+	"statement":"Este es una pegunta enviada desde postman como caso de prueba",
+	"score": 50,
+	"user_id": 1,
+	"answers": ["5e8b97bf93e19ba1ba0b1de1"],
+	"qualifications" : ["5e8b981293e19ba1ba0b1de2"]
+}

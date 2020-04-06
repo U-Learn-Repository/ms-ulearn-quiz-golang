@@ -4,7 +4,7 @@ import "time"
 import "fmt"
 import mgo "gopkg.in/mgo.v2"
 import "gopkg.in/mgo.v2/bson"
-import "github.com/U-Learn-Repository/ms-ulearn-quiz-golang/src/data"
+import "github.com/U-Learn-Repository/ms-ulearn-quiz-golang/src/models"
 
 type MongoDB struct {
 	Host             string
@@ -20,7 +20,8 @@ type MongoDB struct {
 func (mongo *MongoDB) SetDefault() {
 	mongo.Host = "localhost"
 	mongo.Addrs = "localhost:27017"
-	mongo.Database = "context"
+	mongo.Database = "quices"
+
 	mongo.EventTTLAfterEnd = 1 * time.Second
 	mongo.StdEventTTL = 20 * time.Minute
 	mongo.Info = &mgo.DialInfo{
@@ -47,9 +48,11 @@ func (mongo *MongoDB) Init() (err error) {
 		fmt.Printf("\n drop database error: %v\n", err)
 	}
 
-	data := data.DataJSON{}
-	data.Data = "Some String"
-	err = mongo.PostData(&data)
+	question := models.Question{}
+	question.Statement = "Esta es un ejemplo de una pregunta"
+	question.Score = 100
+	question.UserId = 1
+	err = mongo.InsertQuestion(&question)
 
 	return err
 }
@@ -65,19 +68,22 @@ func (mongo *MongoDB) SetSession() (err error) {
 	return err
 }
 
-
-func (mongo *MongoDB) GetData() (dates []data.DataJSON, err error) {
+// GetQuestions [question1, question2, ...]
+func (mongo *MongoDB) GetQuestions() (questions []models.Question, err error) {
 	session := mongo.Session.Clone()
 	defer session.Close()
 
-	err = session.DB(mongo.Database).C("Data").Find(bson.M{}).All(&dates)
-	return dates, err
+	err = session.DB(mongo.Database).C(models.CollectionQuestion).Find(bson.M{}).All(&questions)
+	return questions, err
 }
 
-func (mongo *MongoDB) PostData(dataContext *data.DataJSON) (err error) {
+func (mongo *MongoDB) InsertQuestion(newQuestion *models.Question) (err error) {
 	session := mongo.Session.Clone()
 	defer session.Close()
 
-	err = session.DB(mongo.Database).C("DataJSON").Insert(&dataContext)
+	newQuestion.CreateAt = time.Now()
+	newQuestion.UpdateAt = time.Now()
+
+	err = session.DB(mongo.Database).C(models.CollectionQuestion).Insert(&newQuestion)
 	return err
 }
