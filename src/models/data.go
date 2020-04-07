@@ -24,9 +24,9 @@ type Question struct {
 // https://stackoverflow.com/questions/27659487/relationships-in-mgo/27660642
 
 type Answer struct {
-	Id        bson.ObjectId `json:"_id,omitempty" bson:"_id, omitempty"`
-	Context   string        `json:"contest,omitempty" form:"contest" binding:"require" bson:"contest,omitempty"`
-	IsCorrect bool          `json:"is_correct,omitempty" form:"is_correct" binding:"require" bson:"is_correct,omitempty"`
+	Id        bson.ObjectId `json:"_id,omitempty" bson:"_id,omitempty"`
+	Context   string        `json:"context,omitempty" bson:"context,omitempty"`
+	IsCorrect bool          `json:"is_correct,omitempty" bson:"is_correct,omitempty"`
 }
 
 type Qualification struct {

@@ -18,6 +18,8 @@ func SetupRouter() *gin.Engine {
         v1.GET("/questions", controllers.GetQuestions)
         v1.GET("/question/:id", controllers.GetQuestionById)
         v1.POST("/question", controllers.InsertQuestion)
+
+        v1.POST("/answer", controllers.InsertAnswer)
     }
     return router
 }
