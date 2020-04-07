@@ -7,15 +7,15 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-func InsertAnswer(c *gin.Context) {
+func InsertQualification(c *gin.Context) {
 
 	mongo, ok := c.Keys["mongo"].(*database.MongoDB)
 
 	if !ok {
-		c.JSON(400, gin.H{"message": "can't reach db", "body": nil})
+		c.JSON(400, gin.H{"message": "can't reach db", "status": 400, "body": nil})
 	}
 
-	req := models.Answer{}
+	req := models.Qualification{}
 
 	err := c.Bind(&req)
 
@@ -25,7 +25,7 @@ func InsertAnswer(c *gin.Context) {
 		c.JSON(400, gin.H{"message": "Incorrect data", "status": 400, "body": nil})
 		return
 	} else {
-		err := mongo.InsertAnswer(&req)
+		err := mongo.InsertQualification(&req)
 
 		if err != nil {
 			c.JSON(400, gin.H{"message": "error post to db", "status": 400, "body": nil})

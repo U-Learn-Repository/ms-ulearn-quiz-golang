@@ -1,22 +1,24 @@
 package controllers
 
 // import "fmt"
-import "github.com/gin-gonic/gin"
-import "github.com/U-Learn-Repository/ms-ulearn-quiz-golang/src/database"
-import "github.com/U-Learn-Repository/ms-ulearn-quiz-golang/src/models"
+import (
+	"github.com/U-Learn-Repository/ms-ulearn-quiz-golang/src/database"
+	"github.com/U-Learn-Repository/ms-ulearn-quiz-golang/src/models"
+	"github.com/gin-gonic/gin"
+)
 
 // GET: /api/v1/questions
 func GetQuestions(c *gin.Context) {
 	mongo, ok := c.Keys["mongo"].(*database.MongoDB)
 
 	if !ok {
-		c.JSON(400, gin.H{"message": "can't reach db", "body": nil})
+		c.JSON(400, gin.H{"message": "can't reach db", "status": 400, "body": nil})
 	}
 
 	data, err := mongo.GetQuestions()
 
 	if err != nil {
-		c.JSON(400, gin.H{"message": "can't get data from database", "body": nil})
+		c.JSON(400, gin.H{"message": "can't get data from database", "status": 400, "body": nil})
 	} else {
 		c.JSON(200, gin.H{"message": "OK", "status": 200, "body": data})
 	}
@@ -29,7 +31,7 @@ func GetQuestionById(c *gin.Context) {
 	mongo, ok := c.Keys["mongo"].(*database.MongoDB)
 
 	if !ok {
-		c.JSON(400, gin.H{"message": "can't reach db", "body": nil})
+		c.JSON(400, gin.H{"message": "can't reach db", "status": 400, "body": nil})
 	}
 
 	data, err := mongo.GetQuestionById(id)
@@ -46,13 +48,13 @@ func InsertQuestion(c *gin.Context) {
 	mongo, ok := c.Keys["mongo"].(*database.MongoDB)
 
 	if !ok {
-		c.JSON(400, gin.H{"message": "can't connect to db", "body": nil})
+		c.JSON(400, gin.H{"message": "can't reach db", "status": 400, "body": nil})
 	}
 
 	req := models.Question{}
 
 	err := c.Bind(&req)
-	
+
 	if err != nil {
 		c.JSON(400, gin.H{"message": "Incorrect data", "body": nil})
 		return
@@ -62,6 +64,6 @@ func InsertQuestion(c *gin.Context) {
 		if err != nil {
 			c.JSON(400, gin.H{"message": "error post to db", "body": nil})
 		}
-		c.JSON(200, gin.H{"message": "post data sucess", "body": req})
+		c.JSON(200, gin.H{"message": "OK", "status": 200, "body": req})
 	}
 }
