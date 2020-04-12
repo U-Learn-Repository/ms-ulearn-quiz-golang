@@ -20,15 +20,9 @@ func SetupRouter() *gin.Engine {
 		v1.GET("/questions", controllers.GetQuestions)
 		v1.GET("/question/:id", controllers.GetQuestionById)
 		v1.POST("/question", controllers.InsertQuestion)
-		v1.PUT("/question/:id", controllers.UpdateQuestion)
-		v1.DELETE("/question/:id", controllers.DeleteQuestion)
 
 		v1.POST("/answer", controllers.InsertAnswer)
-		v1.PUT("/answer/:id", controllers.UpdateAnswer)
-
 		v1.POST("/qualification", controllers.InsertQualification)
-		v1.PUT("/qualification/:id", controllers.UpdateQualification)
-		v1.DELETE("/qualification/:id", controllers.DeleteQualification)
 	}
 	return router
 }

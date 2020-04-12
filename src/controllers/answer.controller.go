@@ -33,26 +33,3 @@ func InsertAnswer(c *gin.Context) {
 		c.JSON(200, gin.H{"message": "OK", "status": 200, "body": req})
 	}
 }
-
-// UPDATE: /api/v1/answer/:id
-func UpdateAnswer(c *gin.Context) {
-	id := c.Params.ByName("id")
-
-	mongo, ok := c.Keys["mongo"].(*database.MongoDB)
-
-	if !ok {
-		c.JSON(400, gin.H{"message": "can't reach db", "status": 400, "body": nil})
-	}
-
-	req := models.Answer{}
-
-	err := c.Bind(&req)
-
-	data, err := mongo.UpdateAnswer(id, req)
-
-	if err != nil {
-		c.JSON(400, gin.H{"message": "can't get data from database", "body": nil})
-	} else {
-		c.JSON(200, gin.H{"message": "OK", "status": 200, "body": data})
-	}
-}
