@@ -2,6 +2,8 @@ package controllers
 
 // import "fmt"
 import (
+	"fmt"
+
 	"github.com/U-Learn-Repository/ms-ulearn-quiz-golang/src/database"
 	"github.com/U-Learn-Repository/ms-ulearn-quiz-golang/src/models"
 	"github.com/gin-gonic/gin"
@@ -9,6 +11,9 @@ import (
 
 // GET: /api/v1/questions
 func GetQuestions(c *gin.Context) {
+
+	fmt.Println("Running in get questions")
+
 	mongo, ok := c.Keys["mongo"].(*database.MongoDB)
 
 	if !ok {
