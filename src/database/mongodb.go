@@ -1,9 +1,12 @@
 package database
 
-import "time"
-import "fmt"
-import mgo "gopkg.in/mgo.v2"
-import "github.com/U-Learn-Repository/ms-ulearn-quiz-golang/src/models"
+import (
+	"fmt"
+	"time"
+
+	"github.com/U-Learn-Repository/ms-ulearn-quiz-golang/src/models"
+	mgo "gopkg.in/mgo.v2"
+)
 
 type MongoDB struct {
 	Host             string
@@ -17,8 +20,8 @@ type MongoDB struct {
 }
 
 func (mongo *MongoDB) SetDefault() {
-	mongo.Host = "localhost"
-	mongo.Addrs = "localhost:27017"
+	mongo.Host = "mongodb"
+	mongo.Addrs = "mongo:27017"
 	mongo.Database = "quices"
 
 	mongo.EventTTLAfterEnd = 1 * time.Second
@@ -41,7 +44,7 @@ func (mongo *MongoDB) Drop() (err error) {
 	return nil
 }
 
-func (mongo *MongoDB) Init() (err error) { 
+func (mongo *MongoDB) Init() (err error) {
 	err = mongo.Drop()
 	if err != nil {
 		fmt.Printf("\nDrop database error: %v\n", err)
@@ -66,4 +69,3 @@ func (mongo *MongoDB) SetSession() (err error) {
 	}
 	return err
 }
-
