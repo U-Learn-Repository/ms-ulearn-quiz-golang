@@ -1,0 +1,175 @@
+{
+	"variables": [],
+	"info": {
+		"name": "ULearnQuizzes",
+		"_postman_id": "47930fee-2bb2-1944-8e8f-089958c8a47f",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add Answer",
+			"request": {
+				"url": "http://localhost:5000/api/v1/answer",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"context\":\"Esta es alguna respuesta\",\n\t\"is_correct\": true\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update Answer",
+			"request": {
+				"url": "http://localhost:5000/api/v1/answer/5e94aea029490900f396fe69",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"context\":\"Esta es alguna respuesta - Update\",\n\t\"is_correct\": false\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add Qualification",
+			"request": {
+				"url": "http://localhost:5000/api/v1/qualification",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"value\":5,\n\t\"user_id\": 1\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update Qualification",
+			"request": {
+				"url": "http://localhost:5000/api/v1/qualification/5e94b0f629490900f396fe6b",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"value\":10,\n\t\"user_id\": 1\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Qualification",
+			"request": {
+				"url": "http://localhost:5000/api/v1/question/5e94b0f629490900f396fe6b",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add Question",
+			"request": {
+				"url": "http://localhost:5000/api/v1/question",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"statement\":\"Este es una pegunta enviada desde postman como caso de prueba\",\n\t\"score\": 50,\n\t\"user_id\": 1,\n\t\"answers\": [],\n\t\"qualifications\" : []\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Questions",
+			"request": {
+				"url": "http://localhost:5000/api/v1/question/5e93aecf2af104126f5d1c3f",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Question By Id",
+			"request": {
+				"url": "http://localhost:5000/api/v1/question/5e93aecf2af104126f5d1c3f",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update Question",
+			"request": {
+				"url": "http://localhost:5000/api/v1/question/5e94b1a320b15134187c2d6e",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"statement\":\"Este es una pegunta enviada desde postman como caso de prueba\",\n\t\"score\": 100,\n\t\"user_id\": 1,\n\t\"answers\": [],\n\t\"qualifications\" : []\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Question",
+			"request": {
+				"url": "http://localhost:5000/api/v1/question/5e94b1a320b15134187c2d6e",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
