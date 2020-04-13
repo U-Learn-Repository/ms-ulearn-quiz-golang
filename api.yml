@@ -1,0 +1,281 @@
+#Test with: http://editor.swagger.io/
+
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Microservice for Quizzes
+  description: Golang + MongoDB
+  license:
+    name: Software Architecture, 2020-I
+host: host:5000
+basePath: /api/v1/
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /questions:
+    get:
+      summary: Get all questions
+      responses:
+        '200':
+          description: OK
+          schema:
+              $ref: '#/definitions/Questions'
+        '400':
+          description: can't get data from database
+          schema:
+            $ref: '#/definitions/ErrorModel'
+            
+  /question/{id}:
+    get:
+      summary: Get question from id
+      operationId: getQuestionById
+      parameters:
+        - name: id
+          in: path
+          description: The id of the Question to be returned
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Question'
+        '400':
+          description: can't get data from database
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    
+    put:
+      summary: Update question from id
+      operationId: UpdateQuestionById
+      parameters:
+        - name: id
+          in: path
+          description: The id of the Question to be updated
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Question'
+        '400':
+          description: can't update data from database
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    
+    
+    delete:
+      summary: Delete question from id
+      operationId: DeleteQuestionById
+      parameters:
+        - name: id
+          in: path
+          description: The id of the Question to be Deleted
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Question'
+        '400':
+          description: can't delete data from database
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  
+  /question:
+    post:
+      summary: Add new question
+      operationId: createQuestion
+      parameters:
+        - name: question
+          in: body
+          required: true
+          description: Question Object
+          schema:
+            $ref: '#/definitions/Question'
+      responses:
+        '200':
+          description: OK
+          schema:
+              $ref: '#/definitions/Questions'
+        '400':
+          description: can't add data from database
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  
+  /answer:
+    post:
+      summary: Add new Answer
+      operationId: creatAnswer
+      parameters:
+        - name: answer
+          in: body
+          required: true
+          description: Answer Object
+          schema:
+            $ref: '#/definitions/Answer'
+      responses:
+        '200':
+          description: OK
+          schema:
+              $ref: '#/definitions/Answer'
+        '400':
+          description: can't add data from database
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  
+  /answer/{id}:
+    put:
+      summary: Update Answer from id
+      operationId: UpdateAnswerById
+      parameters:
+        - name: id
+          in: path
+          description: The id of the Answer to be updated
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Answer'
+        '400':
+          description: can't get data from database
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  
+  /qualification:
+    post:
+      summary: Add new Qualification
+      operationId: createQualification
+      parameters:
+        - name: qualification
+          in: body
+          required: true
+          description: Qualification Object
+          schema:
+            $ref: '#/definitions/Qualification'
+      responses:
+        '200':
+          description: OK
+          schema:
+              $ref: '#/definitions/Qualification'
+        '400':
+          description: can't add data from database
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  
+  
+  /qualification/{id}:
+    put:
+      summary: Update Qualification from id
+      operationId: UpdateQualificationById
+      parameters:
+        - name: id
+          in: path
+          description: The id of the Qualification to be updated
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Qualification'
+        '400':
+          description: can't get data from database
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    
+    delete:
+      summary: Delete Qualification from id
+      operationId: DeleteQualificationById
+      parameters:
+        - name: id
+          in: path
+          description: The id of the Qualification to be deleted
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Qualification'
+        '400':
+          description: can't get data from database
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  
+definitions:
+  
+  Questions:
+    type: array
+    items:
+      $ref: '#/definitions/Question'
+  
+  Question:
+    type: object
+    properties:
+      _id:
+        type: string
+      statement:
+        type: string
+      score:
+        type: integer
+      user_id:
+        type: integer
+      create_at:
+        type: string
+      update_at:
+        type: string
+      answers:
+        type: array
+        items:
+          $ref: '#/definitions/Answer'
+      qualifications:
+        type: array
+        items:
+          $ref: '#/definitions/Qualification'
+  
+  Answer:
+    type: object
+    properties:
+      _id:
+        type: string
+      context:
+        type: integer
+      is_correct:
+        type: boolean
+  
+  Qualification:
+    type: object
+    properties:
+      _id:
+        type: string
+      value:
+        type: integer
+      user_id:
+        type: integer
+      create_at:
+        type: string
+      update_at:
+        type: string
+      
+  # Errors
+  ErrorModel:
+    type: object
+    required:
+      - message
+      - code
+    properties:
+      message:
+        type: string
+      status:
+        type: number
+      body:
+        type: object
