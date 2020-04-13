@@ -1,0 +1,14 @@
+version: '3'
+services:
+  web:
+    image: "quices"
+    build: .
+    command: "go run main.go"
+    ports:
+      - "5000:8080"
+    depends_on:
+      - "mongo"
+  mongo:
+    image: "mongo"
+    ports:
+      - "27017:27017"
