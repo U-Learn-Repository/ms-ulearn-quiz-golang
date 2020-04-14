@@ -1,14 +1,15 @@
 version: '3'
 services:
   web:
-    image: "quices"
+    image: "ulearn-quizzes-ms"
     build: .
     command: "go run main.go"
     ports:
       - "5000:8080"
     depends_on:
-      - "mongo"
-  mongo:
-    image: "mongo"
+      - "ulearn-quizzes-db"
+
+  ulearn-quizzes-db:
+    image: mongo:latest
     ports:
       - "27017:27017"

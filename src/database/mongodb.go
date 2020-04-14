@@ -21,7 +21,7 @@ type MongoDB struct {
 
 func (mongo *MongoDB) SetDefault() {
 	mongo.Host = "mongodb"
-	mongo.Addrs = "mongo:27017"
+	mongo.Addrs = "ulearn-quizzes-db:27017"
 	mongo.Database = "quices"
 
 	mongo.EventTTLAfterEnd = 1 * time.Second
