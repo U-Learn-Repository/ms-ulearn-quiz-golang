@@ -8,7 +8,7 @@ RUN go mod download
 
 COPY . .
 
-EXPOSE 5000
+EXPOSE 7777
 
 CMD ["go", "run", "main.go"]
 
