@@ -5,11 +5,11 @@ services:
     build: .
     command: "go run main.go"
     ports:
-      - "5000:8080"
+      - "7777:8080"
     depends_on:
       - "ulearn-quizzes-db"
 
   ulearn-quizzes-db:
     image: mongo:latest
     ports:
-      - "27017:27017"
+      - "7778:27017"
