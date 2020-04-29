@@ -42,3 +42,14 @@ type Qualification struct {
 
 // Default Data
 // https://stackoverflow.com/questions/41907619/set-default-date-when-inserting-document-with-time-time-field
+
+type QuestionResponse struct {
+	Id             bson.ObjectId   `json:"_id,omitempty" bson:"_id,omitempty"`
+	Statement      string          `json:"statement,omitempty" bson:"statement,omitempty"`
+	Score          int16           `json:"score,omitempty" bson:"score,omitempty"`
+	UserId         int64           `json:"user_id,omitempty" bson:"user_id,omitempty"`
+	CreateAt       time.Time       `json:"create_at" bson:"create_at"`
+	UpdateAt       time.Time       `json:"update_at" bson:"update_at"`
+	Answers        []*Answer       `json:"answers" bson:"answers"`
+	Qualifications []bson.ObjectId `json:"qualifications" bson:"qualifications"`
+}
