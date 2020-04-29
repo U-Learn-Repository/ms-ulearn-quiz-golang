@@ -32,14 +32,48 @@ func (mongo *MongoDB) GetQuestions() (questions []models.QuestionResponse, err e
 
 // https://stackoverflow.com/questions/46774424/mgo-aggregation-how-to-reuse-model-types-to-query-and-unmarshal-mixed-results/46774425
 
-func (mongo *MongoDB) GetQuestionById(id string) (question models.Question, err error) {
+func (mongo *MongoDB) GetQuestionById(id string) (question models.QuestionResponse, err error) {
 	session := mongo.Session.Clone()
 	defer session.Close()
 
-	err = session.
-		DB(mongo.Database).
-		C(models.CollectionQuestion).
-		FindId(bson.ObjectIdHex(id)).One(&question)
+	/*
+			  {
+		        $match: {
+		            _id: ObjectId("5ea8dc2b72db48f43f87065c")
+		        }
+		    },
+		    {
+		        "$lookup": {
+		            "from": "answer",
+		            "localField": "answers",
+		            "foreignField": "_id",
+		            "as": "answers"
+		        }
+		    }
+	*/
+	/*
+		err = session.
+			DB(mongo.Database).
+			C(models.CollectionQuestion).
+			FindId(bson.ObjectIdHex(id)).One(&question)*/
+
+	pipe := session.DB(mongo.Database).C(models.CollectionQuestion).Pipe([]bson.M{
+		{
+			"$match": bson.M{
+				"_id": bson.ObjectIdHex(id),
+			},
+		},
+		{
+			"$lookup": bson.M{
+				"from":         "answer",
+				"localField":   "answers",
+				"foreignField": "_id",
+				"as":           "answers",
+			},
+		},
+	})
+
+	pipe.One(&question)
 
 	return question, err
 }
