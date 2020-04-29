@@ -9,13 +9,28 @@ import (
 )
 
 // GetQuestions [question1, question2, ...]
-func (mongo *MongoDB) GetQuestions() (questions []models.Question, err error) {
+func (mongo *MongoDB) GetQuestions() (questions []models.QuestionResponse, err error) {
 	session := mongo.Session.Clone()
 	defer session.Close()
 
-	err = session.DB(mongo.Database).C(models.CollectionQuestion).Find(bson.M{}).All(&questions)
+	pipe := session.DB(mongo.Database).C(models.CollectionQuestion).Pipe([]bson.M{
+		{
+			"$lookup": bson.M{
+				"from":         "answer",
+				"localField":   "answers",
+				"foreignField": "_id",
+				"as":           "answers",
+			},
+		},
+	})
+
+	pipe.All(&questions)
+
+	// err = session.DB(mongo.Database).C(models.CollectionQuestion).Find(bson.M{}).All(&questions)
 	return questions, err
 }
+
+// https://stackoverflow.com/questions/46774424/mgo-aggregation-how-to-reuse-model-types-to-query-and-unmarshal-mixed-results/46774425
 
 func (mongo *MongoDB) GetQuestionById(id string) (question models.Question, err error) {
 	session := mongo.Session.Clone()

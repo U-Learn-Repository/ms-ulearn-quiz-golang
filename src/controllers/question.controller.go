@@ -64,6 +64,9 @@ func InsertQuestion(c *gin.Context) {
 		c.JSON(400, gin.H{"message": "Incorrect data", "body": nil})
 		return
 	} else {
+
+		fmt.Printf("%+v\n", req)
+
 		err := mongo.InsertQuestion(&req)
 
 		if err != nil {
