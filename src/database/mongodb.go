@@ -8,6 +8,9 @@ import (
 	mgo "gopkg.in/mgo.v2"
 )
 
+const IP = "192.168.1.73";
+const PORT = "7778";
+
 type MongoDB struct {
 	Host             string
 	Port             string
@@ -21,7 +24,8 @@ type MongoDB struct {
 
 func (mongo *MongoDB) SetDefault() {
 	mongo.Host = "mongodb"
-	mongo.Addrs = "ulearn-quizzes-db:27017"
+	// mongo.Addrs = "ulearn-quizzes-db:27017"
+	mongo.Addrs = IP+":"+PORT;
 	mongo.Database = "quices"
 
 	mongo.EventTTLAfterEnd = 1 * time.Second
@@ -69,3 +73,4 @@ func (mongo *MongoDB) SetSession() (err error) {
 	}
 	return err
 }
+
